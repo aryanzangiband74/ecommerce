@@ -1,0 +1,35 @@
+GET http://localhost:3000/users?role=user
+
+
+###
+GET http://localhost:3000/users/1
+Content-Type: application/json
+
+
+
+###
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "name":"aryan",
+  "display_name":"aryan",
+  "mobile":"09304263292",
+  "role":"user"
+}
+
+###
+PATCH  http://localhost:3000/users/1
+Content-Type: application/json
+
+{
+  "mobile": "09304263292",
+  "display_name":"hadi",
+  "role":"admin"
+}
+
+
+
+###
+DELETE   http://localhost:3000/users/1
+Content-Type: application/json
