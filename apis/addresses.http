@@ -1,0 +1,37 @@
+
+GET http://localhost:3000/addresses
+
+
+###
+GET http://localhost:3000/addresses/1
+Content-Type: application/json
+
+
+
+###
+POST http://localhost:3000/addresses
+Content-Type: application/json
+
+{
+  "privince":"aryan",
+  "city":"aryan",
+  "address":"aryan",
+  "postal_code":"1234567890",
+  "reciver_mobile":"09304263292",
+  "user_id":1
+}
+###
+PATCH  http://localhost:3000/addresses/1
+Content-Type: application/json
+
+{
+  "privince":"kurdestan",
+  "city":"saghez",
+  "address":"saghez"
+}
+
+
+
+###
+DELETE   http://localhost:3000/addresses/1
+Content-Type: application/json

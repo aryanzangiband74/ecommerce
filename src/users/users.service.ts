@@ -25,7 +25,7 @@ export class UsersService {
   }
 
   async findAll(role?: UserRoleEnum, limit: number = 10, page: number = 1) {
-    const query = this.userRepository.createQueryBuilder('users');
+    const query = this.userRepository.createQueryBuilder('users').leftJoinAndSelect('users.addresses', 'addresses');
 
     if (role) {
       query.where('role = :role', { role });
