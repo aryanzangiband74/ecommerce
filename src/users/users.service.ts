@@ -15,6 +15,8 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     try {
+      const alreadyUser = await this.findOneByMobile(createUserDto.mobile, true);
+      if (alreadyUser) throw new BadRequestException('کاربری با این شماره موبایل قبلا ثبت نام کرده است');
       const newUser = this.userRepository.create(createUserDto);
       return await this.userRepository.save(newUser);
     } catch (err: any) {
@@ -38,9 +40,9 @@ export class UsersService {
     return user;
   }
 
-  async findOneByMobile(mobile: string) {
+  async findOneByMobile(mobile: string, checkExistence = false) {
     const user = await this.userRepository.findOne({ where: { mobile } });
-    if (!user) throw new BadRequestException('user not found');
+    if (!checkExistence && !user) throw new BadRequestException('user not found');
     return user;
   }
 

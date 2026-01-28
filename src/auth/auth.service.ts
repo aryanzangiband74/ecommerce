@@ -24,8 +24,15 @@ export class AuthService {
 
   async login(mobile: string, password: string) {
     const user = await this.userService.findOneByMobile(mobile);
+    if (!user) throw new UnauthorizedException('کاربری با این شماره موبایل یافت نشد');
     if (!(await bcrypt.compare(password, user.password))) throw new UnauthorizedException('رمز عبور اشتباه است');
 
     const payload = { mobile: user.mobile, sub: user.id, display_name: user.display_name };
+
+    const token = this.jwtService.sign(payload);
+
+    return {
+      access_token: token
+    };
   }
 }

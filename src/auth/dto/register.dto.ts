@@ -1,14 +1,12 @@
 import { Transform } from 'class-transformer';
-import {
-  IsNotEmpty,
-  IsString,
-  Length,
-  Matches,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
+import { IsNotEmpty, IsString, Length, Matches, MaxLength, MinLength } from 'class-validator';
 
 export class RegisterDto {
+  @IsNotEmpty({ message: 'نام کاربر معتبر نیست' })
+  @IsString({ message: 'نام کاربر معتبر نیست' })
+  @MinLength(3, { message: 'نام کاربر حداقل 3 کارکتر باشد' })
+  name: string;
+
   @IsString()
   @Length(11, 11, { message: 'شماره موبایل باید 11 رقم باشد' })
   @Transform(({ value }) => value.trim())
