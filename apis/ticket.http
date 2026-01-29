@@ -3,7 +3,7 @@ GET http://localhost:3000/tickets
 
 
 ###
-GET http://localhost:3000/tickets/1
+GET http://localhost:3000/tickets/2
 Content-Type: application/json
 
 
@@ -13,12 +13,11 @@ POST http://localhost:3000/tickets
 Content-Type: application/json
 
 {
-  "privince":"aryan",
-  "city":"aryan",
-  "address":"aryan",
-  "postal_code":"1234567890",
-  "reciver_mobile":"09304263292",
-  "user_id":1
+  "title":"new ticket",
+  "subject":"ahmad abad",
+  "description":"ticket description",
+  "userId":2,
+  "replyTo":2
 }
 ###
 PATCH  http://localhost:3000/tickets/1

@@ -1,34 +1,40 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, HttpStatus, Res, Query } from '@nestjs/common';
 import { TicketsService } from './tickets.service';
 import { CreateTicketDto } from './dto/create-ticket.dto';
-import { UpdateTicketDto } from './dto/update-ticket.dto';
-
+import * as express from 'express';
 @Controller('tickets')
 export class TicketsController {
   constructor(private readonly ticketsService: TicketsService) {}
 
   @Post()
-  create(@Body() createTicketDto: CreateTicketDto) {
-    return this.ticketsService.create(createTicketDto);
+  async create(@Res() res: express.Response, @Body() createTicketDto: CreateTicketDto) {
+    const createdTicket = await this.ticketsService.create(createTicketDto);
+
+    return res.status(HttpStatus.OK).json({
+      statusCode: HttpStatus.CREATED,
+      data: createdTicket,
+      message: 'user created'
+    });
   }
 
   @Get()
-  findAll() {
-    return this.ticketsService.findAll();
+  async findAll(@Res() res: express.Response, @Query('limit') limit?: number, @Query('page') page?: number) {
+    const tickets = await this.ticketsService.findAll(limit, page);
+    return res.status(HttpStatus.OK).json({
+      statusCode: HttpStatus.CREATED,
+      data: tickets,
+      message: 'user created'
+    });
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.ticketsService.findOne(+id);
-  }
+  async findOne(@Res() res: express.Response, @Param('id') id: string) {
+    const ticket = await this.ticketsService.findOne(+id);
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTicketDto: UpdateTicketDto) {
-    return this.ticketsService.update(+id, updateTicketDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ticketsService.remove(+id);
+    return res.status(HttpStatus.OK).json({
+      statusCode: HttpStatus.CREATED,
+      data: ticket,
+      message: 'user created'
+    });
   }
 }
