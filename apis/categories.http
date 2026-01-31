@@ -1,0 +1,33 @@
+
+GET http://localhost:3000/categories
+
+
+###
+GET http://localhost:3000/categories/2
+Content-Type: application/json
+
+
+
+###
+POST http://localhost:3000/categories
+Content-Type: application/json
+
+{
+  "title":"new cat",
+  "description":"ticket description"
+}
+###
+PATCH  http://localhost:3000/categories/1
+Content-Type: application/json
+
+{
+  "privince":"kurdestan",
+  "city":"saghez",
+  "address":"saghez"
+}
+
+
+
+###
+DELETE   http://localhost:3000/categories/1
+Content-Type: application/json

@@ -1,0 +1,36 @@
+
+GET http://localhost:3000/products
+
+
+###
+GET http://localhost:3000/products/2
+Content-Type: application/json
+
+
+
+###
+POST http://localhost:3000/products
+Content-Type: application/json
+
+{
+  "title":"new ticket",
+  "subject":"ahmad abad",
+  "description":"ticket description",
+  "userId":2,
+  "replyTo":2
+}
+###
+PATCH  http://localhost:3000/products/1
+Content-Type: application/json
+
+{
+  "privince":"kurdestan",
+  "city":"saghez",
+  "address":"saghez"
+}
+
+
+
+###
+DELETE   http://localhost:3000/products/1
+Content-Type: application/json
