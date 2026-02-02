@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { In, Repository } from 'typeorm';
 import { Category } from 'src/categories/entities/category.entity';
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @Injectable()
 export class ProductsService {
@@ -14,9 +14,9 @@ export class ProductsService {
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>
   ) {}
-  async create(createProductDto: CreateProductDto) {
+  async create(createProductDto: CreateProductDto): Promise<Product> {
     const { categoryIds, ...formData } = createProductDto;
-    const product = await this.productRepository.create({ ...formData });
+    const product = this.productRepository.create({ ...formData });
 
     if (!!categoryIds && categoryIds?.length > 0) {
       const categories = await this.categoryRepository.findBy({ id: In(categoryIds) });
@@ -25,19 +25,45 @@ export class ProductsService {
     return await this.productRepository.save(product);
   }
 
-  findAll() {
-    return `This action returns all products`;
+  async findAll() {
+    return await this.productRepository.find({ relations: ['categories'] });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findOne(id: number) {
+    const product = await this.productRepository.findOne({ where: { id }, relations: ['categories'] });
+    if (!product) throw new BadRequestException('Product not found');
+
+    return product;
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(id: number, updateProductDto: UpdateProductDto) {
+    const { categoryIds, title, price, description, stock } = updateProductDto;
+
+    // ----- common way -----
+    // const product = await this.productRepository.findOneOrFail({ where: { id }, relations: ['categories'] });
+    // this.productRepository.merge(product, { ...formData });
+
+    // if (!!categoryIds && categoryIds?.length > 0) {
+    //   const categories = await this.categoryRepository.findBy({ id: In(categoryIds) });
+    //   product.categories = categories;
+    // }
+    // ----- common way -----
+
+    const product = await this.findOne(id);
+
+    if (!!categoryIds && categoryIds?.length > 0) {
+      const categories = await this.categoryRepository.findBy({ id: In(categoryIds) });
+      product.categories = categories;
+    }
+    product.title = title;
+    product.price = price;
+    product.description = description;
+    product.stock = stock;
+
+    return await this.productRepository.save(product);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
-  }
+  // remove(id: number) {
+  //   return `This action removes a #${id} product`;
+  // }
 }

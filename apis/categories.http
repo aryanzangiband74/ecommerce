@@ -13,8 +13,8 @@ POST http://localhost:3000/categories
 Content-Type: application/json
 
 {
-  "title":"new cat",
-  "description":"ticket description"
+  "title":"new cat3",
+  "description":"category3 description"
 }
 ###
 PATCH  http://localhost:3000/categories/1

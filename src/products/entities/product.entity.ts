@@ -28,7 +28,7 @@ export class Product {
   @JoinTable({
     name: 'product_category',
     joinColumn: { name: 'product_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'category_id_id', referencedColumnName: 'id' }
+    inverseJoinColumn: { name: 'category_id', referencedColumnName: 'id' }
   })
   categories: Category[];
 }
