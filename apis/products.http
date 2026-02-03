@@ -24,10 +24,10 @@ PATCH  http://localhost:3000/products/3
 Content-Type: application/json
 
 {
-  "title":"aryan product",
-  "price":60000,
+  # "title":"aryan product",
+  # "price":60000,
   # "description":"product description",
-  "categoryIds":[ 1,2 ]
+  "categoryIds":[ 3,4 ]
   # "stock":100
 }
 

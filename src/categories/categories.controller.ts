@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, HttpStatus, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, HttpStatus, Res, Delete } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 // import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -30,8 +30,13 @@ export class CategoriesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.categoriesService.findOne(+id);
+  async findOne(@Res() res: express.Response, @Param('id') id: string) {
+    const category = await this.categoriesService.findOne(+id);
+    return res.status(HttpStatus.OK).json({
+      statusCode: HttpStatus.OK,
+      data: category,
+      message: 'Category found'
+    });
   }
 
   // @Patch(':id')
@@ -39,8 +44,30 @@ export class CategoriesController {
   //   return this.categoriesService.update(+id, updateCategoryDto);
   // }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.categoriesService.remove(+id);
-  // }
+  @Delete(':id')
+  async remove(@Res() res: express.Response, @Param('id') id: string) {
+    await this.categoriesService.remove(+id);
+    return res.status(HttpStatus.OK).json({
+      statusCode: HttpStatus.OK,
+      message: 'Category removed successfully'
+    });
+  }
+
+  @Delete('safeRemove/:id')
+  async safeRemove(@Res() res: express.Response, @Param('id') id: string) {
+    await this.categoriesService.safeRemove(+id);
+    return res.status(HttpStatus.OK).json({
+      statusCode: HttpStatus.OK,
+      message: 'Category removed successfully'
+    });
+  }
+
+  @Delete('hardRemove/:id')
+  async hardRemove(@Res() res: express.Response, @Param('id') id: string) {
+    await this.categoriesService.hardRemove(+id);
+    return res.status(HttpStatus.OK).json({
+      statusCode: HttpStatus.OK,
+      message: 'Category removed successfully'
+    });
+  }
 }

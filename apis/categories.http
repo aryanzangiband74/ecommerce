@@ -13,8 +13,8 @@ POST http://localhost:3000/categories
 Content-Type: application/json
 
 {
-  "title":"new cat3",
-  "description":"category3 description"
+  "title":"new cat5",
+  "description":"category5 description"
 }
 ###
 PATCH  http://localhost:3000/categories/1
@@ -30,4 +30,13 @@ Content-Type: application/json
 
 ###
 DELETE   http://localhost:3000/categories/1
+Content-Type: application/json
+
+###
+DELETE   http://localhost:3000/categories/safeRemove/2
+Content-Type: application/json
+
+
+###
+DELETE   http://localhost:3000/categories/hardRemove/3
 Content-Type: application/json
