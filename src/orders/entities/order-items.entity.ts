@@ -8,9 +8,6 @@ export class OrderItem {
   id: number;
 
   @Column()
-  status: string;
-
-  @Column()
   quantity: number;
 
   @ManyToOne(() => Order, (order) => order.orderItems)
@@ -18,5 +15,6 @@ export class OrderItem {
   order: Order;
 
   @ManyToOne(() => Product)
+  @JoinColumn({ name: 'product_id' })
   product: Product;
 }

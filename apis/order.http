@@ -1,0 +1,39 @@
+
+GET http://localhost:3000/orders
+
+
+###
+GET http://localhost:3000/orders/1
+Content-Type: application/json
+
+
+
+###
+POST http://localhost:3000/orders
+Content-Type: application/json
+
+{
+  "userId":1,
+  "status":"PENDING",
+  "addressId":1,
+  "total_amount":12354321,
+  "orderItems":[{
+    "productId":6,
+    "quantity":2    
+  }]
+}
+###
+PATCH  http://localhost:3000/orders/1
+Content-Type: application/json
+
+{
+  "privince":"kurdestan",
+  "city":"saghez",
+  "address":"saghez"
+}
+
+
+
+###
+DELETE   http://localhost:3000/orders/1
+Content-Type: application/json

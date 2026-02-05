@@ -13,7 +13,7 @@ POST http://localhost:3000/products
 Content-Type: application/json
 
 {
-  "title":"test product",
+  "title":"aryan product",
   "price":50000,
   "description":"product description",
   "categoryIds":[ 4,5 ],
@@ -24,11 +24,11 @@ PATCH  http://localhost:3000/products/3
 Content-Type: application/json
 
 {
-  # "title":"aryan product",
-  # "price":60000,
-  # "description":"product description",
-  "categoryIds":[ 3,4 ]
-  # "stock":100
+  "title":"aryan product",
+  "price":60000,
+  "description":"product description",
+  "categoryIds":[4],
+  "stock":100
 }
 
 

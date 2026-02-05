@@ -9,17 +9,14 @@ export class Order {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  status: string;
-
   @Column({ type: 'enum', enum: OrderStatusEnum, default: OrderStatusEnum.PENDING })
-  total_amount: number;
+  status: OrderStatusEnum;
 
   @Column({ type: 'timestamp', nullable: true })
   payed_time: Date;
 
   @Column({ type: 'bigint' })
-  total_price: number;
+  total_amount: number;
 
   @Column({ nullable: true })
   discount_code: string;

@@ -35,7 +35,7 @@ export class OrdersService {
     const order = this.ordersRepository.create({
       user,
       address,
-      total_price: createOrderDto.total_price,
+      total_amount: createOrderDto.total_amount,
       discount_code: createOrderDto.discountCode,
       status: createOrderDto.status || OrderStatusEnum.PENDING
     });
@@ -60,19 +60,74 @@ export class OrdersService {
     return savedOrder;
   }
 
-  findAll() {
-    return `This action returns all orders`;
+  async findAll() {
+    return await this.ordersRepository.find({ relations: ['user', 'address', 'orderItems', 'orderItems.product'] });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  async findOne(id: number) {
+    const order = await this.ordersRepository.findOne({
+      where: { id },
+      relations: ['user', 'address', 'orderItems', 'orderItems.product']
+    });
+    if (!order) {
+      throw new NotFoundException(`Order with ID ${id} not found`);
+    }
+    return order;
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
+  async update(id: number, updateOrderDto: UpdateOrderDto): Promise<Order> {
+    const order = await this.ordersRepository.findOne({
+      where: { id },
+      relations: ['user', 'address', 'orderItems', 'orderItems.product']
+    });
+
+    if (!order) {
+      throw new NotFoundException(`Order with ID ${id} not found`);
+    }
+
+    if (updateOrderDto.addressId !== undefined) {
+      const address = await this.addressService.findOne(updateOrderDto.addressId);
+      if (!address) throw new NotFoundException('Address not found');
+      order.address = address;
+    }
+
+    if (updateOrderDto.discountCode !== undefined) {
+      order.discount_code = updateOrderDto.discountCode;
+    }
+
+    // Handle orderItems replacement if provided
+    if (updateOrderDto.orderItems !== undefined) {
+      // delete existing items for this order
+      await this.orderItemsRepository.createQueryBuilder().delete().from('order-items').where('order_id = :id', { id: order.id }).execute();
+
+      if (updateOrderDto.orderItems && updateOrderDto.orderItems.length > 0) {
+        const createdItems = updateOrderDto.orderItems.map(async (item) => {
+          const product = await this.productService.findOne(item.productId);
+          if (!product) {
+            throw new NotFoundException(`Product with id ${item.productId} not found`);
+          }
+          const orderItem = this.orderItemsRepository.create({
+            product,
+            quantity: item.quantity,
+            order
+          });
+          return this.orderItemsRepository.save(orderItem);
+        });
+        await Promise.all(createdItems);
+      }
+    }
+
+    await this.ordersRepository.save(order);
+
+    // return fresh entity with relations
+    return this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} order`;
+  async remove(id: number) {
+    const order = await this.ordersRepository.findOne({ where: { id } });
+    if (!order) {
+      throw new NotFoundException('Order not found');
+    }
+    return this.ordersRepository.remove(order);
   }
 }

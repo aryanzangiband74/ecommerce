@@ -17,8 +17,8 @@ export class CreateOrderDto {
   @IsEnum(OrderStatusEnum, { message: 'وضعیت سفارش نامعتبر است' })
   status: OrderStatusEnum;
 
-  @IsInt({ message: 'total_price باید یک عدد صحیح باشد' })
-  total_price: number;
+  @IsInt({ message: 'total_amount باید یک عدد صحیح باشد' })
+  total_amount: number;
 
   @IsArray({ message: 'orderItems باید یک آرایه باشد' })
   @ValidateNested({ each: true })
