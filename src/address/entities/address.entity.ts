@@ -27,6 +27,9 @@ export class Address {
   @ManyToOne(() => User, (user) => user.addresses, { onDelete: 'CASCADE' })
   user: User;
 
+  // @OneToMany(() => Orders, (order) => order.address)
+  // orders: Orders[];
+
   @CreateDateColumn()
   created_at: Date;
 
