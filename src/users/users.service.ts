@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import UserRoleEnum from './enums/userRoleEnum';
+import { Product } from 'src/products/entities/product.entity';
 
 @Injectable()
 export class UsersService {
@@ -65,5 +66,23 @@ export class UsersService {
     if (result.affected === 0) {
       throw new BadRequestException('operation failed and user' + id + 'not found');
     }
+  }
+
+  async addProductToBasket(userId: number, product: Product) {
+    const user = await this.userRepository.findOne({ where: { id: userId }, relations: ['basketItems'] });
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+    user.basketItems.push(product);
+
+    return this.userRepository.save(user);
+  }
+  async removeProductFromBasket(userId: number, productId: number) {
+    const user = await this.userRepository.findOne({ where: { id: userId }, relations: ['basketItems'] });
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+    user.basketItems = user.basketItems.filter((item) => item.id !== productId);
+    await this.userRepository.save(user);
   }
 }

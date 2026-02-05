@@ -65,4 +65,26 @@ export class ProductsController {
       message: 'Bookmark toggled'
     });
   }
+
+  @Post('add-basket-item')
+  async addBasketItem(@Res() res: express.Response, @Body() body: { userId: number; productId: number }) {
+    const { userId, productId } = body;
+    const bookmark = await this.productsService.addItemToBasket(userId, productId);
+    return res.status(HttpStatus.OK).json({
+      statusCode: HttpStatus.OK,
+      data: bookmark,
+      message: 'Item added to basket'
+    });
+  }
+
+  @Post('remove-basket-item')
+  async removeBasketItem(@Res() res: express.Response, @Body() body: { userId: number; productId: number }) {
+    const { userId, productId } = body;
+    const bookmark = await this.productsService.removeItemFromBasket(userId, productId);
+    return res.status(HttpStatus.OK).json({
+      statusCode: HttpStatus.OK,
+      data: bookmark,
+      message: 'Item removed from basket'
+    });
+  }
 }

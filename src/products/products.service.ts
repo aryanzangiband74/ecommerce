@@ -82,7 +82,6 @@ export class ProductsService {
     const existingBookmark = await this.bookmarkRepository.findOne({
       where: { user_id: user.id, product_id: product.id }
     });
-    console.log('🚀 ~ ProductsService ~ toggleBookmark ~ existingBookmark:', existingBookmark);
     if (existingBookmark) {
       await this.bookmarkRepository.remove(existingBookmark);
     } else {
@@ -92,5 +91,24 @@ export class ProductsService {
       });
       return await this.bookmarkRepository.save(newBookmark);
     }
+  }
+
+  async addItemToBasket(userId: number, productId: number) {
+    const product = await this.productRepository.findOne({ where: { id: productId } });
+    if (!product) {
+      throw new BadRequestException('User or product not found');
+    }
+
+    return await this.userService.addProductToBasket(userId, product);
+  }
+
+  async removeItemFromBasket(userId: number, productId: number) {
+    const product = await this.productRepository.findOne({ where: { id: productId } });
+
+    if (!product) {
+      throw new BadRequestException('User or product not found');
+    }
+
+    return await this.userService.removeProductFromBasket(userId, product.id);
   }
 }

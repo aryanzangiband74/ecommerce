@@ -44,5 +44,26 @@ Content-Type: application/json
 
 {
   "userId": 1,
+  "productId": 3
+}
+
+
+
+###
+POST http://localhost:3000/products/add-basket-item
+Content-Type: application/json  
+
+{
+  "userId": 1,
+  "productId": 4
+}
+
+
+###
+POST http://localhost:3000/products/remove-basket-item
+Content-Type: application/json  
+
+{
+  "userId": 1,
   "productId": 4
 }
