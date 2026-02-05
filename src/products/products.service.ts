@@ -5,6 +5,8 @@ import { Product } from './entities/product.entity';
 import { In, Repository } from 'typeorm';
 import { Category } from 'src/categories/entities/category.entity';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { BookmarkProduct } from './entities/product-bookmark.entity';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class ProductsService {
@@ -12,7 +14,10 @@ export class ProductsService {
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
     @InjectRepository(Category)
-    private readonly categoryRepository: Repository<Category>
+    private readonly categoryRepository: Repository<Category>,
+    @InjectRepository(BookmarkProduct)
+    private readonly bookmarkRepository: Repository<BookmarkProduct>,
+    private readonly userService: UsersService
   ) {}
   async create(createProductDto: CreateProductDto): Promise<Product> {
     const { categoryIds, ...formData } = createProductDto;
@@ -66,4 +71,26 @@ export class ProductsService {
   // remove(id: number) {
   //   return `This action removes a #${id} product`;
   // }
+  async toggleBookmark(userId: number, productId: number): Promise<BookmarkProduct | void> {
+    const user = await this.userService.findOne(userId);
+    const product = await this.productRepository.findOne({ where: { id: productId } });
+
+    if (!user || !product) {
+      throw new BadRequestException('User or product not found');
+    }
+
+    const existingBookmark = await this.bookmarkRepository.findOne({
+      where: { user_id: user.id, product_id: product.id }
+    });
+    console.log('🚀 ~ ProductsService ~ toggleBookmark ~ existingBookmark:', existingBookmark);
+    if (existingBookmark) {
+      await this.bookmarkRepository.remove(existingBookmark);
+    } else {
+      const newBookmark = this.bookmarkRepository.create({
+        user: user,
+        product: product
+      });
+      return await this.bookmarkRepository.save(newBookmark);
+    }
+  }
 }

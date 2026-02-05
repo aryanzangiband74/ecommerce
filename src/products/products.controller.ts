@@ -4,6 +4,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 // import { UpdateProductDto } from './dto/update-product.dto';
 import * as express from 'express';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { CreateBookmarkProductDto } from './dto/create-bookmark-product.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -53,4 +54,15 @@ export class ProductsController {
   // remove(@Param('id') id: string) {
   //   return this.productsService.remove(+id);
   // }
+
+  @Post('bookmark-product')
+  async toggleBookmark(@Res() res: express.Response, @Body() body: CreateBookmarkProductDto) {
+    const { userId, productId } = body;
+    const bookmark = await this.productsService.toggleBookmark(userId, productId);
+    return res.status(HttpStatus.OK).json({
+      statusCode: HttpStatus.OK,
+      data: bookmark,
+      message: 'Bookmark toggled'
+    });
+  }
 }

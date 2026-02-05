@@ -4,10 +4,10 @@ export class CreateBookmarkProductDto {
   @IsNotEmpty({ message: 'user_id الزامی است' })
   @IsInt({ message: 'user_id باید یک عدد صحیح باشد' })
   @IsPositive({ message: 'user_id باید یک عدد مثبت باشد' })
-  user_id: number;
+  userId: number;
 
   @IsNotEmpty({ message: 'product_id الزامی است' })
   @IsInt({ message: 'product_id باید یک عدد صحیح باشد' })
   @IsPositive({ message: 'product_id باید یک عدد مثبت باشد' })
-  product_id: number;
+  productId: number;
 }
