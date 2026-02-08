@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Res } from '@nestjs/common'
 // import { UpdateCategoryDto } from './dto/update-category.dto';
 import type * as express from 'express'
-import type { CategoriesService } from './categories.service'
+import { CategoriesService } from './categories.service'
 import type { CreateCategoryDto } from './dto/create-category.dto'
 @Controller('categories')
 export class CategoriesController {

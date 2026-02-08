@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Res } from '@nestjs/
 import type * as express from 'express'
 import type { CreateOrderDto } from './dto/create-order.dto'
 import type { UpdateOrderDto } from './dto/update-order.dto'
-import type { OrdersService } from './orders.service'
+import { OrdersService } from './orders.service'
 
 @Controller('orders')
 export class OrdersController {

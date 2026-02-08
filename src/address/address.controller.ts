@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Query, Res } from '@nestjs/common'
 import type * as express from 'express'
-import type { AddressService } from './address.service'
+import { AddressService } from './address.service'
 import type { CreateAddressDto } from './dto/create-address.dto'
 import type { UpdateAddressDto } from './dto/update-address.dto'
 

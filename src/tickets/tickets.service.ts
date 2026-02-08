@@ -1,6 +1,6 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
+import { BadRequestException, forwardRef, Inject, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import type { UsersService } from 'src/users/users.service'
+import { UsersService } from 'src/users/users.service'
 import type { Repository } from 'typeorm'
 import type { CreateTicketDto } from './dto/create-ticket.dto'
 import { Ticket } from './entities/ticket.entity'
@@ -10,6 +10,7 @@ export class TicketsService {
   constructor(
     @InjectRepository(Ticket)
     private readonly ticketRepository: Repository<Ticket>,
+    @Inject(forwardRef(() => UsersService))
     private readonly userService: UsersService,
   ) {}
   async create(CreateTicketDto: CreateTicketDto): Promise<Ticket> {

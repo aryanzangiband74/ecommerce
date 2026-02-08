@@ -1,7 +1,7 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
+import { BadRequestException, forwardRef, Inject, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Category } from 'src/categories/entities/category.entity'
-import type { UsersService } from 'src/users/users.service'
+import { UsersService } from 'src/users/users.service'
 import { In, type Repository } from 'typeorm'
 import type { CreateProductDto } from './dto/create-product.dto'
 import type { UpdateProductDto } from './dto/update-product.dto'
@@ -11,13 +11,14 @@ import { BookmarkProduct } from './entities/product-bookmark.entity'
 @Injectable()
 export class ProductsService {
   constructor(
+    @Inject(forwardRef(() => UsersService))
+    private readonly userService: UsersService,
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>,
     @InjectRepository(BookmarkProduct)
     private readonly bookmarkRepository: Repository<BookmarkProduct>,
-    private readonly userService: UsersService,
   ) {}
   async create(createProductDto: CreateProductDto): Promise<Product> {
     const { categoryIds, ...formData } = createProductDto

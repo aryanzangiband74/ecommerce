@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpStatus, Param, Post, Query, Res } from '@nestjs/common'
 import type * as express from 'express'
 import type { CreateTicketDto } from './dto/create-ticket.dto'
-import type { TicketsService } from './tickets.service'
+import { TicketsService } from './tickets.service'
 @Controller('tickets')
 export class TicketsController {
   constructor(private readonly ticketsService: TicketsService) {}

@@ -4,7 +4,7 @@ import type * as express from 'express'
 import type { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import type UserRoleEnum from './enums/userRoleEnum'
-import type { UsersService } from './users.service'
+import { UsersService } from './users.service'
 
 @Controller('users')
 export class UsersController {

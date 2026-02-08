@@ -4,7 +4,7 @@ import type * as express from 'express'
 import type { CreateBookmarkProductDto } from './dto/create-bookmark-product.dto'
 import type { CreateProductDto } from './dto/create-product.dto'
 import type { UpdateProductDto } from './dto/update-product.dto'
-import type { ProductsService } from './products.service'
+import { ProductsService } from './products.service'
 
 @Controller('products')
 export class ProductsController {
