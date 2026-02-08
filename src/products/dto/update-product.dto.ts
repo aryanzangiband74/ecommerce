@@ -1,24 +1,24 @@
-import { IsArray, IsInt, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsInt, IsOptional, IsString } from 'class-validator'
 
 export class UpdateProductDto {
   @IsString()
   @IsOptional()
-  title: string;
+  title: string
 
   @IsInt()
   @IsOptional()
-  price: number;
+  price: number
 
   @IsString()
   @IsOptional()
-  description: string;
+  description: string
 
   @IsInt()
   @IsOptional()
-  stock: number;
+  stock: number
 
   @IsOptional()
   @IsOptional()
   @IsArray()
-  categoryIds?: number[];
+  categoryIds?: number[]
 }

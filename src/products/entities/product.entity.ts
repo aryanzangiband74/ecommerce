@@ -1,56 +1,56 @@
-import { Category } from 'src/categories/entities/category.entity';
-import { User } from 'src/users/entities/user.entity';
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { BookmarkProduct } from './product-bookmark.entity';
+import { Category } from 'src/categories/entities/category.entity'
+import { User } from 'src/users/entities/user.entity'
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { BookmarkProduct } from './product-bookmark.entity'
 
 @Entity('products')
 export class Product {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: number
 
   @Column({ nullable: false })
-  title: string;
+  title: string
 
   @Column({ nullable: false })
-  description: string;
+  description: string
 
   @Column({ nullable: false })
-  price: number;
+  price: number
 
   @Column({ nullable: false })
-  stock: number;
+  stock: number
 
   @CreateDateColumn()
-  created_at: Date;
+  created_at: Date
 
   @UpdateDateColumn()
-  updated_at: Date;
+  updated_at: Date
 
   @OneToMany(
     () => BookmarkProduct,
-    (bookmark) => bookmark.product
+    (bookmark) => bookmark.product,
   )
-  bookmarks: BookmarkProduct[];
+  bookmarks: BookmarkProduct[]
 
   @ManyToMany(
     () => Category,
-    (category) => category.products
+    (category) => category.products,
   )
   @JoinTable({
     name: 'product_category',
     joinColumn: { name: 'product_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'category_id', referencedColumnName: 'id' }
+    inverseJoinColumn: { name: 'category_id', referencedColumnName: 'id' },
   })
-  categories: Category[];
+  categories: Category[]
 
   @ManyToMany(
     () => User,
-    (user) => user.basketItems
+    (user) => user.basketItems,
   )
   @JoinTable({
     name: 'basket_items',
     joinColumn: { name: 'product_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'user_id', referencedColumnName: 'id' }
+    inverseJoinColumn: { name: 'user_id', referencedColumnName: 'id' },
   })
-  basket: User[];
+  basket: User[]
 }

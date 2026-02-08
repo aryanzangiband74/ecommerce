@@ -1,42 +1,42 @@
-import { User } from 'src/users/entities/user.entity';
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { User } from 'src/users/entities/user.entity'
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
 @Entity('tickets')
 export class Ticket {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: number
 
   @Column()
-  title: string;
+  title: string
 
   @Column()
-  subject: string;
+  subject: string
 
   @Column()
-  description: string;
+  description: string
 
   @ManyToOne(
     () => User,
-    (user) => user.tickets
+    (user) => user.tickets,
   )
-  user: User;
+  user: User
 
   @CreateDateColumn()
-  created_at: Date;
+  created_at: Date
 
   @UpdateDateColumn()
-  updated_at: Date;
+  updated_at: Date
 
   @ManyToOne(
     () => Ticket,
     (ticket) => ticket.replies,
-    { nullable: true }
+    { nullable: true },
   )
-  replyTo: Ticket | null;
+  replyTo: Ticket | null
 
   @OneToMany(
     () => Ticket,
-    (ticket) => ticket.replyTo
+    (ticket) => ticket.replyTo,
   )
-  replies: Ticket[];
+  replies: Ticket[]
 }

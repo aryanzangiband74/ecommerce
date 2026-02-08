@@ -1,8 +1,8 @@
-import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
-import type * as express from 'express';
-import type { AuthService } from './auth.service';
-import type { LoginDto } from './dto/login.dto';
-import type { RegisterDto } from './dto/register.dto';
+import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common'
+import type * as express from 'express'
+import type { AuthService } from './auth.service'
+import type { LoginDto } from './dto/login.dto'
+import type { RegisterDto } from './dto/register.dto'
 
 @Controller('auth')
 export class AuthController {
@@ -10,21 +10,21 @@ export class AuthController {
 
   @Post('register')
   async register(@Res() res: express.Response, @Body() registerDto: RegisterDto) {
-    const register = await this.authService.register(registerDto.name, registerDto.mobile, registerDto.password, registerDto.display_name);
+    const register = await this.authService.register(registerDto.name, registerDto.mobile, registerDto.password, registerDto.display_name)
     return res.status(HttpStatus.OK).json({
       statusCode: HttpStatus.OK,
       data: register,
-      message: 'ثبت نام با موفقیت انجام شد'
-    });
+      message: 'ثبت نام با موفقیت انجام شد',
+    })
   }
 
   @Post('login')
   async login(@Res() res: express.Response, @Body() body: LoginDto) {
-    const login = await this.authService.login(body.mobile, body.password);
+    const login = await this.authService.login(body.mobile, body.password)
     return res.status(HttpStatus.OK).json({
       statusCode: HttpStatus.OK,
       data: login,
-      message: 'ورود با موفقیت انجام شد'
-    });
+      message: 'ورود با موفقیت انجام شد',
+    })
   }
 }

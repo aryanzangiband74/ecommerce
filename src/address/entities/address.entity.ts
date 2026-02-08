@@ -1,42 +1,42 @@
-import { User } from 'src/users/entities/user.entity';
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { User } from 'src/users/entities/user.entity'
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
 @Entity('addresses')
 export class Address {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: number
 
   @Column({ nullable: false })
-  privince: string;
+  privince: string
 
   @Column({ nullable: false })
-  city: string;
+  city: string
 
   @Column()
-  address: string;
+  address: string
 
   @Column({ unique: true, length: 10 })
-  postal_code: string;
+  postal_code: string
 
   @Column({ length: 11 })
-  reciver_mobile: string;
+  reciver_mobile: string
 
   @Column({ nullable: true })
-  description: string;
+  description: string
 
   @ManyToOne(
     () => User,
     (user) => user.addresses,
-    { onDelete: 'CASCADE' }
+    { onDelete: 'CASCADE' },
   )
-  user: User;
+  user: User
 
   // @OneToMany(() => Orders, (order) => order.address)
   // orders: Orders[];
 
   @CreateDateColumn()
-  created_at: Date;
+  created_at: Date
 
   @UpdateDateColumn()
-  updated_at: Date;
+  updated_at: Date
 }

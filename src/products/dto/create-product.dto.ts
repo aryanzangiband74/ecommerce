@@ -1,18 +1,18 @@
-import { IsArray, IsInt, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsInt, IsOptional, IsString } from 'class-validator'
 export class CreateProductDto {
   @IsString()
-  title: string;
+  title: string
 
   @IsInt()
-  price: number;
+  price: number
 
   @IsString()
-  description: string;
+  description: string
 
   @IsInt()
-  stock: number;
+  stock: number
 
   @IsOptional()
   @IsArray()
-  categoryIds?: number[];
+  categoryIds?: number[]
 }

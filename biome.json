@@ -6,24 +6,22 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": [
-      "**/*",
-      "!dist/**",
-      "!coverage/**",
-      "!node_modules/**",
-      "!.turbo/**",
-      "!.cache/**",
-      "!build/**",
-      "!*.generated.*"
-    ]
+    "includes": ["**/*", "!dist", "!coverage", "!node_modules", "!.turbo", "!.cache", "!build", "!*.generated.*"]
   },
   "formatter": {
     "enabled": true,
+    "formatWithErrors": false,
     "indentStyle": "space",
     "indentWidth": 2,
-    "lineWidth": 100
+    "lineEnding": "lf",
+    "lineWidth": 140,
+    "attributePosition": "auto",
+    "bracketSameLine": false,
+    "bracketSpacing": true,
+    "expand": "auto",
+    "useEditorconfig": true,
+    "includes": ["**", "!**/coverage", "!**/.idea", "!**/.next", "!**/public", "!**/node_modules", "!*/.md"]
   },
-  "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "javascript": {
     "parser": {
       "unsafeParameterDecoratorsEnabled": true
@@ -37,14 +35,6 @@
   },
   "linter": {
     "enabled": true,
-    "domains": {
-      "correctness": "recommended",
-      "a11y": "recommended",
-      "style": "recommended",
-      "suspicious": "recommended",
-      "complexity": "recommended",
-      "performance": "recommended"
-    },
     "rules": {
       "style": {
         "useImportType": "off"
