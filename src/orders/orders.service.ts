@@ -13,13 +13,13 @@ import { OrderStatusEnum } from './enums/order-status.enum';
 @Injectable()
 export class OrdersService {
   constructor(
-    private readonly userService: UsersService,
-    private readonly addressService: AddressService,
-    private readonly productService: ProductsService,
     @InjectRepository(Order)
     private readonly ordersRepository: Repository<Order>,
     @InjectRepository(OrderItem)
-    private readonly orderItemsRepository: Repository<OrderItem>
+    private readonly orderItemsRepository: Repository<OrderItem>,
+    private readonly userService: UsersService,
+    private readonly addressService: AddressService,
+    private readonly productService: ProductsService,
   ) {}
 
   async create(createOrderDto: CreateOrderDto): Promise<Order> {

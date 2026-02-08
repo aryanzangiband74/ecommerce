@@ -1,63 +1,71 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
-  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
-  "files": { "ignoreUnknown": false },
+  "$schema": "https://biomejs.dev/schemas/2.3.14/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "includes": [
+      "**/*",
+      "!dist/**",
+      "!coverage/**",
+      "!node_modules/**",
+      "!.turbo/**",
+      "!.cache/**",
+      "!build/**",
+      "!*.generated.*"
+    ]
+  },
   "formatter": {
     "enabled": true,
-    "formatWithErrors": false,
     "indentStyle": "space",
     "indentWidth": 2,
-    "lineEnding": "lf",
-    "lineWidth": 140,
-    "attributePosition": "auto",
-    "bracketSameLine": false,
-    "bracketSpacing": true,
-    "expand": "auto",
-    "useEditorconfig": true,
-    "includes": ["**", "!**/coverage", "!**/.idea", "!**/.next", "!**/public", "!**/node_modules", "!*/.md"]
+    "lineWidth": 100
+  },
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
+  "javascript": {
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    },
+    "formatter": {
+      "quoteStyle": "single",
+      "jsxQuoteStyle": "single",
+      "semicolons": "asNeeded",
+      "arrowParentheses": "always"
+    }
   },
   "linter": {
     "enabled": true,
+    "domains": {
+      "correctness": "recommended",
+      "a11y": "recommended",
+      "style": "recommended",
+      "suspicious": "recommended",
+      "complexity": "recommended",
+      "performance": "recommended"
+    },
     "rules": {
-      "recommended": true,
-      "correctness": {
-        "noChildrenProp": "error",
-        "useJsxKeyInIterable": "error"
-      },
-      "security": { "noDangerouslySetInnerHtmlWithChildren": "error" },
       "style": {
-        "noRestrictedImports": "error",
-        "useBlockStatements": "off",
-        "useConst": "error"
+        "useImportType": "off"
+      },
+      "correctness": {
+        "noUnusedVariables": "warn",
+        "noUnusedImports": "warn"
       },
       "suspicious": {
-        "noCommentText": "error",
-        "noConsole": "error",
-        "noDuplicateJsxProps": "error"
+        "noExplicitAny": "off"
       }
     }
   },
-  "javascript": {
+  "json": {
     "formatter": {
-      "quoteProperties": "asNeeded",
-      "trailingCommas": "none",
-      "semicolons": "always",
-      "arrowParentheses": "always",
-      "bracketSameLine": false,
-      "quoteStyle": "single",
-      "attributePosition": "auto",
-      "bracketSpacing": true
-    },
-    "globals": ["BatcheEndpointsEnum"]
-  },
-  "html": {
-    "formatter": {
-      "indentScriptAndStyle": false,
-      "selfCloseVoidElements": "always"
+      "enabled": true,
+      "indentStyle": "space",
+      "indentWidth": 2
     }
   },
   "assist": {
-    "enabled": true,
-    "actions": { "source": { "organizeImports": "on" } }
+    "enabled": true
   }
 }
