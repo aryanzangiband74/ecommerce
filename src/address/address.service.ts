@@ -1,10 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { CreateAddressDto } from './dto/create-address.dto';
-import { UpdateAddressDto } from './dto/update-address.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Address } from './entities/address.entity';
-import { Repository } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
+import type { Repository } from 'typeorm';
+import type { CreateAddressDto } from './dto/create-address.dto';
+import type { UpdateAddressDto } from './dto/update-address.dto';
+import { Address } from './entities/address.entity';
 
 @Injectable()
 export class AddressService {

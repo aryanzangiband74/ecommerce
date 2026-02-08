@@ -1,6 +1,6 @@
+import { Expose } from 'class-transformer';
 import { IsEnum, IsOptional, IsString, MinLength } from 'class-validator';
 import UserRoleEnum from '../enums/userRoleEnum';
-import { Expose } from 'class-transformer';
 export class UpdateUserDto {
   @IsString({ message: 'نام نمایشی باید یک رشته باشد' })
   @Expose()

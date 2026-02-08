@@ -1,11 +1,5 @@
 import { Transform } from 'class-transformer';
-import {
-  IsNotEmpty,
-  IsString,
-  Length,
-  Matches,
-  MaxLength,
-} from 'class-validator';
+import { IsNotEmpty, IsString, Length, Matches, MaxLength } from 'class-validator';
 
 export class LoginDto {
   @IsString()

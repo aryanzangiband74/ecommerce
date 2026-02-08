@@ -1,7 +1,7 @@
 import { Category } from 'src/categories/entities/category.entity';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, JoinTable, ManyToMany, OneToMany } from 'typeorm';
-import { BookmarkProduct } from './product-bookmark.entity';
 import { User } from 'src/users/entities/user.entity';
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { BookmarkProduct } from './product-bookmark.entity';
 
 @Entity('products')
 export class Product {
@@ -26,10 +26,16 @@ export class Product {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(() => BookmarkProduct, (bookmark) => bookmark.product)
+  @OneToMany(
+    () => BookmarkProduct,
+    (bookmark) => bookmark.product
+  )
   bookmarks: BookmarkProduct[];
 
-  @ManyToMany(() => Category, (category) => category.products)
+  @ManyToMany(
+    () => Category,
+    (category) => category.products
+  )
   @JoinTable({
     name: 'product_category',
     joinColumn: { name: 'product_id', referencedColumnName: 'id' },
@@ -37,7 +43,10 @@ export class Product {
   })
   categories: Category[];
 
-  @ManyToMany(() => User, (user) => user.basketItems)
+  @ManyToMany(
+    () => User,
+    (user) => user.basketItems
+  )
   @JoinTable({
     name: 'basket_items',
     joinColumn: { name: 'product_id', referencedColumnName: 'id' },

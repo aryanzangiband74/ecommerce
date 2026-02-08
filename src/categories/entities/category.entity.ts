@@ -11,7 +11,10 @@ export class Category {
   @Column({ nullable: true })
   description: string;
 
-  @ManyToMany(() => Product, (products) => products.categories)
+  @ManyToMany(
+    () => Product,
+    (products) => products.categories
+  )
   @JoinTable({
     name: 'product_category',
     joinColumn: { name: 'category_id', referencedColumnName: 'id' },

@@ -1,7 +1,7 @@
+import { Type } from 'class-transformer';
 import { IsArray, IsEnum, IsInt, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { OrderStatusEnum } from '../enums/order-status.enum';
 import { CreateOrderItemDto } from './create-order-items.dto';
-import { Type } from 'class-transformer';
 
 export class CreateOrderDto {
   @IsInt({ message: 'userId باید یک عدد صحیح باشد' })

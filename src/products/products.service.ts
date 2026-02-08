@@ -1,12 +1,12 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { CreateProductDto } from './dto/create-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Product } from './entities/product.entity';
-import { In, Repository } from 'typeorm';
 import { Category } from 'src/categories/entities/category.entity';
-import { UpdateProductDto } from './dto/update-product.dto';
+import type { UsersService } from 'src/users/users.service';
+import { In, type Repository } from 'typeorm';
+import type { CreateProductDto } from './dto/create-product.dto';
+import type { UpdateProductDto } from './dto/update-product.dto';
+import { Product } from './entities/product.entity';
 import { BookmarkProduct } from './entities/product-bookmark.entity';
-import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class ProductsService {

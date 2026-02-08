@@ -1,5 +1,5 @@
 enum UserRoleEnum {
   NORMAL_USER = 'user',
-  ADMIN = 'admin',
+  ADMIN = 'admin'
 }
 export default UserRoleEnum;

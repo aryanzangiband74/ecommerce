@@ -1,10 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpStatus, Res } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import * as express from 'express';
-import UserRoleEnum from './enums/userRoleEnum';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Query, Res } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
+import type * as express from 'express';
+import type { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import type UserRoleEnum from './enums/userRoleEnum';
+import type { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {

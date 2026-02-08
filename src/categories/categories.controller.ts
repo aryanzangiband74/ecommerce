@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, Param, HttpStatus, Res, Delete } from '@nestjs/common';
-import { CategoriesService } from './categories.service';
-import { CreateCategoryDto } from './dto/create-category.dto';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Res } from '@nestjs/common';
 // import { UpdateCategoryDto } from './dto/update-category.dto';
-import * as express from 'express';
+import type * as express from 'express';
+import type { CategoriesService } from './categories.service';
+import type { CreateCategoryDto } from './dto/create-category.dto';
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}

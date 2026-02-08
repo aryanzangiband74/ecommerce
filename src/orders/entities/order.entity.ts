@@ -1,5 +1,5 @@
-import { User } from 'src/users/entities/user.entity';
 import { Address } from 'src/address/entities/address.entity';
+import { User } from 'src/users/entities/user.entity';
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { OrderStatusEnum } from '../enums/order-status.enum';
 import { OrderItem } from './order-items.entity';
@@ -25,11 +25,18 @@ export class Order {
   @JoinColumn({ name: 'address_id' })
   address: Address;
 
-  @ManyToOne(() => User, (user) => user.orders)
+  @ManyToOne(
+    () => User,
+    (user) => user.orders
+  )
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, { cascade: true })
+  @OneToMany(
+    () => OrderItem,
+    (orderItem) => orderItem.order,
+    { cascade: true }
+  )
   orderItems: OrderItem[];
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

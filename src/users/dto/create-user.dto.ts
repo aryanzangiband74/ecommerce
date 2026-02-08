@@ -1,6 +1,6 @@
+import { Transform } from 'class-transformer';
 import { IsEnum, IsNotEmpty, IsOptional, IsString, Length, Matches, MinLength } from 'class-validator';
 import UserRoleEnum from '../enums/userRoleEnum';
-import { Transform } from 'class-transformer';
 
 export class CreateUserDto {
   @IsNotEmpty({ message: 'نام کاربر معتبر نیست' })

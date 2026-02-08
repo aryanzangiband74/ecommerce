@@ -1,10 +1,10 @@
-import { Controller, Get, Post, Body, Param, Res, HttpStatus, Patch } from '@nestjs/common';
-import { ProductsService } from './products.service';
-import { CreateProductDto } from './dto/create-product.dto';
+import { Body, Controller, Get, HttpStatus, Param, Patch, Post, Res } from '@nestjs/common';
 // import { UpdateProductDto } from './dto/update-product.dto';
-import * as express from 'express';
-import { UpdateProductDto } from './dto/update-product.dto';
-import { CreateBookmarkProductDto } from './dto/create-bookmark-product.dto';
+import type * as express from 'express';
+import type { CreateBookmarkProductDto } from './dto/create-bookmark-product.dto';
+import type { CreateProductDto } from './dto/create-product.dto';
+import type { UpdateProductDto } from './dto/update-product.dto';
+import type { ProductsService } from './products.service';
 
 @Controller('products')
 export class ProductsController {

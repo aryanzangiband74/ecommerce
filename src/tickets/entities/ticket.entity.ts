@@ -1,5 +1,5 @@
 import { User } from 'src/users/entities/user.entity';
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('tickets')
 export class Ticket {
@@ -15,7 +15,10 @@ export class Ticket {
   @Column()
   description: string;
 
-  @ManyToOne(() => User, (user) => user.tickets)
+  @ManyToOne(
+    () => User,
+    (user) => user.tickets
+  )
   user: User;
 
   @CreateDateColumn()
@@ -24,9 +27,16 @@ export class Ticket {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToOne(() => Ticket, (ticket) => ticket.replies, { nullable: true })
+  @ManyToOne(
+    () => Ticket,
+    (ticket) => ticket.replies,
+    { nullable: true }
+  )
   replyTo: Ticket | null;
 
-  @OneToMany(() => Ticket, (ticket) => ticket.replyTo)
+  @OneToMany(
+    () => Ticket,
+    (ticket) => ticket.replyTo
+  )
   replies: Ticket[];
 }
