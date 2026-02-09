@@ -20,8 +20,13 @@ Content-Type: application/json
   "orderItems":[{
     "productId":6,
     "quantity":2    
+  },{
+    "productId":9,
+    "quantity":1    
   }]
 }
+
+
 ###
 PATCH  http://localhost:3000/orders/1
 Content-Type: application/json

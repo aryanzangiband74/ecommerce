@@ -15,7 +15,7 @@ export class Order {
   @Column({ type: 'timestamp', nullable: true })
   payed_time: Date
 
-  @Column({ type: 'bigint' })
+  @Column({ type: 'bigint', default: 0 })
   total_amount: number
 
   @Column({ nullable: true })

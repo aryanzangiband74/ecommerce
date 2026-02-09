@@ -22,12 +22,14 @@ export class OrdersService {
     private readonly productService: ProductsService,
   ) {}
 
-  async create(createOrderDto: CreateOrderDto): Promise<Order> {
+  async create(createOrderDto: CreateOrderDto): Promise<Order | null> {
+    //get user for order
     const user = await this.userService.findOne(createOrderDto.userId)
     if (!user) {
       throw new NotFoundException('User not found')
     }
 
+    //get address for order
     const address = await this.addressService.findOne(createOrderDto.addressId)
     if (!address) {
       throw new NotFoundException('Address not found')
@@ -35,16 +37,20 @@ export class OrdersService {
     const order = this.ordersRepository.create({
       user,
       address,
-      total_amount: createOrderDto.total_amount,
+      // total_amount: createOrderDto.total_amount,
       discount_code: createOrderDto.discountCode,
       status: createOrderDto.status || OrderStatusEnum.PENDING,
     })
 
     const savedOrder = await this.ordersRepository.save(order)
 
+    //assign items to order
+
+    let totalPrice = 0
     if (createOrderDto.orderItems && createOrderDto.orderItems.length > 0) {
       const orderItems = createOrderDto.orderItems.map(async (item) => {
         const product = await this.productService.findOne(item.productId)
+        totalPrice += product.price * item.quantity
         if (!product) {
           throw new NotFoundException(`Product with id ${item.productId} not found`)
         }
@@ -53,7 +59,16 @@ export class OrdersService {
       })
       await Promise.all(orderItems)
     }
-    return savedOrder
+
+    //update total price
+    await this.ordersRepository.update({ id: savedOrder.id }, { total_amount: totalPrice })
+
+    const returnedOrder = await this.ordersRepository.findOne({
+      where: { id: savedOrder.id },
+      relations: ['user', 'address', 'orderItems', 'orderItems.product'],
+    })
+
+    return returnedOrder
   }
 
   async findAll() {
