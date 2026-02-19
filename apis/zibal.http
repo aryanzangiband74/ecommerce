@@ -1,0 +1,10 @@
+
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "name":"ahmad",
+  "display_name":"oskareh",
+  "mobile":"09204263292",
+  "role":"user"
+}

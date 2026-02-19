@@ -6,7 +6,7 @@
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file",
   "eslint.enable": false,
-  "eslint.codeActionsOnSave.mode": "all",
+  // "eslint.codeActionsOnSave.mode": "all",
   "[javascript]": {
     "editor.defaultFormatter": "biomejs.biome"
   },

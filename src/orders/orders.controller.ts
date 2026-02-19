@@ -1,7 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Res } from '@nestjs/common'
 import type * as express from 'express'
 import type { CreateOrderDto } from './dto/create-order.dto'
+import { PaymentOrderDto } from './dto/payment-order.dto'
 import type { UpdateOrderDto } from './dto/update-order.dto'
+import { VerifyOrderDto } from './dto/verify-order.dto'
 import { OrdersService } from './orders.service'
 
 @Controller('orders')
@@ -52,5 +54,24 @@ export class OrdersController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.ordersService.remove(+id)
+  }
+
+  @Post('/start-payment')
+  async startPayment(@Res() res: express.Response, @Body() paymentOrderDto: PaymentOrderDto) {
+    const responsePayment = await this.ordersService.startPayment(paymentOrderDto.orderId)
+    return res.status(200).json({
+      statusCode: 200,
+      data: { ...responsePayment, paymentUrl: `https://gateway.zibal.ir/start/${responsePayment.trackId}` },
+      message: 'payment started',
+    })
+  }
+  @Post('/verify-payment')
+  async varifyPayment(@Res() res: express.Response, @Body() verifyOrderdto: VerifyOrderDto) {
+    const responsePayment = await this.ordersService.verifyPayment(verifyOrderdto.trackId, verifyOrderdto.orderId)
+    return res.status(200).json({
+      statusCode: 200,
+      data: responsePayment,
+      message: 'payment verified',
+    })
   }
 }

@@ -1,5 +1,7 @@
+import { HttpService } from '@nestjs/axios'
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { lastValueFrom } from 'rxjs'
 import { AddressService } from 'src/address/address.service'
 import { ProductsService } from 'src/products/products.service'
 import { UsersService } from 'src/users/users.service'
@@ -20,6 +22,7 @@ export class OrdersService {
     private readonly userService: UsersService,
     private readonly addressService: AddressService,
     private readonly productService: ProductsService,
+    private readonly httpService: HttpService,
   ) {}
 
   async create(createOrderDto: CreateOrderDto): Promise<Order | null> {
@@ -140,5 +143,59 @@ export class OrdersService {
       throw new NotFoundException('Order not found')
     }
     return this.ordersRepository.remove(order)
+  }
+
+  async startPayment(orderId: number) {
+    const order = await this.ordersRepository.findOne({ where: { id: orderId } })
+    if (!order) {
+      throw new NotFoundException('Order not found')
+    }
+    const response = await this.httpService.post(
+      'https://gateway.zibal.ir/v1/request',
+      {
+        merchant: 'zibal',
+        amount: +order.total_amount,
+        orderId: orderId,
+        callbackUrl: 'http://localhost',
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )
+
+    const result = await lastValueFrom(response)
+
+    return result.data
+  }
+
+  async verifyPayment(trackId: number, orderId: number) {
+    const response = await this.httpService.post(
+      'https://gateway.zibal.ir/v1/verify',
+      {
+        merchant: 'zibal',
+        trackId: trackId,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )
+
+    const result = await lastValueFrom(response)
+
+    if (result.data.result === 100) {
+      //update order status to paid
+      const order = await this.ordersRepository.findOne({ where: { id: orderId } })
+      console.log('🚀 ~ OrdersService ~ verifyPayment ~ order:', order)
+      if (order) {
+        order.status = OrderStatusEnum.COMPLETED
+        await this.ordersRepository.save(order)
+      }
+    }
+
+    return result.data
   }
 }

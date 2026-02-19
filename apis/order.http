@@ -42,3 +42,21 @@ Content-Type: application/json
 ###
 DELETE   http://localhost:3000/orders/1
 Content-Type: application/json
+
+###
+POST http://localhost:3000/orders/start-payment
+Content-Type: application/json
+
+{
+  "orderId":2
+}
+  
+###
+POST http://localhost:3000/orders/verify-payment
+Content-Type: application/json
+
+{
+  "trackId":4482764573,
+  "orderId":2
+}
+  

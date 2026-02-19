@@ -7,9 +7,10 @@ import { Order } from './entities/order.entity'
 import { OrderItem } from './entities/order-items.entity'
 import { OrdersController } from './orders.controller'
 import { OrdersService } from './orders.service'
+import {HttpModule} from "@nestjs/axios"
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Order, OrderItem]), UsersModule, AddressModule, ProductsModule],
+  imports: [TypeOrmModule.forFeature([Order, OrderItem]), UsersModule, AddressModule, ProductsModule,HttpModule],
   controllers: [OrdersController],
   providers: [OrdersService],
 })
