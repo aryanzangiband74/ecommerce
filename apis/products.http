@@ -16,7 +16,7 @@ Content-Type: application/json
   "title":"aryan product",
   "price":50000,
   "description":"product description",
-  "categoryIds":[ 4,5 ],
+  "categoryIds":[ 1,2 ],
   "stock":100
 }
 ###
