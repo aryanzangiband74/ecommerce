@@ -1,5 +1,7 @@
 
 GET http://localhost:3000/users
+Content-Type: application/json
+
 
 
 ###
@@ -13,9 +15,9 @@ POST http://localhost:3000/users
 Content-Type: application/json
 
 {
-  "name":"ahmad",
-  "display_name":"oskareh",
-  "mobile":"09204263292",
+  "name":"jafar",
+  "display_name":"jafari",
+  "mobile":"09404263292",
   "role":"user"
 }
 
