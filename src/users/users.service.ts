@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { instanceToPlain } from 'class-transformer'
 import type { Product } from 'src/products/entities/product.entity'
 import type { Repository } from 'typeorm'
 import type { CreateUserDto } from './dto/create-user.dto'
@@ -19,7 +20,8 @@ export class UsersService {
       const alreadyUser = await this.findOneByMobile(createUserDto.mobile, true)
       if (alreadyUser) throw new BadRequestException('کاربری با این شماره موبایل قبلا ثبت نام کرده است')
       const newUser = this.userRepository.create(createUserDto)
-      return await this.userRepository.save(newUser)
+      const saved = await this.userRepository.save(newUser)
+      return instanceToPlain(saved) as User
     } catch (err: any) {
       throw new BadRequestException('Error in creating user' + err)
     }
@@ -32,13 +34,14 @@ export class UsersService {
       query.where('role = :role', { role })
     }
     query.skip((page - 1) * limit).take(limit)
-    return await query.getMany()
+    const users = await query.getMany()
+    return instanceToPlain(users) as User[]
   }
 
   async findOne(id: number) {
     const user = await this.userRepository.findOne({ where: { id } })
     if (!user) throw new BadRequestException('user not found')
-    return user
+    return instanceToPlain(user) as User
   }
 
   async findOneByMobile(mobile: string, checkExistence = false) {

@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger'
 import { Transform } from 'class-transformer'
 import { IsNotEmpty, IsString, Length, Matches, MaxLength } from 'class-validator'
 
@@ -14,4 +15,8 @@ export class LoginDto {
   // @MinLength(8, { message: 'رمز عبور باید حداقل 8 کاراکتر باشد' })
   @MaxLength(16)
   password: string
+}
+export class LoginResponseDto {
+  @ApiProperty({ example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE0MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c' })
+  access_token: string
 }

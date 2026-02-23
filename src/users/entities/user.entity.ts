@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer'
 import { Address } from 'src/address/entities/address.entity'
 import { Order } from 'src/orders/entities/order.entity'
 import { Product } from 'src/products/entities/product.entity'
@@ -20,6 +21,7 @@ export class User {
   @Column({ nullable: false })
   display_name: string
 
+  @Exclude()
   @Column({ nullable: true })
   password: string
 
@@ -65,8 +67,10 @@ export class User {
   })
   basketItems: Product[]
 
+  @Exclude()
   @CreateDateColumn()
   created_at: Date
+  @Exclude()
   @UpdateDateColumn()
   updated_at: Date
 }
