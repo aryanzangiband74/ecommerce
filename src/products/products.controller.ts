@@ -1,4 +1,5 @@
 import { Body, Controller, Get, HttpStatus, Param, Patch, Post, Res } from '@nestjs/common'
+import { ApiBearerAuth } from '@nestjs/swagger'
 // import { UpdateProductDto } from './dto/update-product.dto';
 import type * as express from 'express'
 import type { CreateBookmarkProductDto } from './dto/create-bookmark-product.dto'
@@ -6,6 +7,7 @@ import type { CreateProductDto } from './dto/create-product.dto'
 import type { UpdateProductDto } from './dto/update-product.dto'
 import { ProductsService } from './products.service'
 
+@ApiBearerAuth()
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}

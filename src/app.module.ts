@@ -43,6 +43,6 @@ import { UsersModule } from './users/users.module'
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(IpTrackerMiddleware, BodyLoggerMiddleware).forRoutes('*')
+    consumer.apply(IpTrackerMiddleware).forRoutes('*')
   }
 }

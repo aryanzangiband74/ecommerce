@@ -1,9 +1,11 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Query, Res } from '@nestjs/common'
+import { ApiBearerAuth } from '@nestjs/swagger'
 import type * as express from 'express'
 import { AddressService } from './address.service'
 import type { CreateAddressDto } from './dto/create-address.dto'
 import type { UpdateAddressDto } from './dto/update-address.dto'
 
+@ApiBearerAuth()
 @Controller('addresses')
 export class AddressController {
   constructor(private readonly addressService: AddressService) {}

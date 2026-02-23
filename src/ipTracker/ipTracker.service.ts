@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common'
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { IpRecord } from './entities/ip-record.entity'
 
 @Injectable()
 export class IpTrackerService {
-  private readonly MAX_REQUESTS = 3
+  private readonly MAX_REQUESTS = 5
   private readonly WINDOW_MINUTES = 1
   private readonly BLOCK_MINUTES = 2
   private readonly TEHRAN_TIMEZONE = 0
@@ -30,10 +30,26 @@ export class IpTrackerService {
       console.log(`🚀 ~ this IP [${ip}] is first request `, record)
       return
     }
+
+    //checked blocked ip
+    if (record.isBlock && record.blockUntil && now < record.blockUntil) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.TOO_MANY_REQUESTS,
+          error: 'too many requests',
+          message: `you blocked for ${this.BLOCK_MINUTES} minutes`,
+        },
+        HttpStatus.TOO_MANY_REQUESTS,
+      )
+    }
+
+    //
     const windowEnd = new Date(record.windowStart.getTime() + (this.WINDOW_MINUTES * 60 * 1000 + this.TEHRAN_TIMEZONE))
     if (now > windowEnd) {
       record.requestCount = 1
       record.windowStart = now
+      record.isBlock = false
+      record.blockUntil = null
     } else {
       if (record.requestCount >= this.MAX_REQUESTS) {
         record.isBlock = true
@@ -43,5 +59,16 @@ export class IpTrackerService {
       }
     }
     await this.ipRepository.save(record)
+
+    if (record.isBlock) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.TOO_MANY_REQUESTS,
+          error: 'too many requests',
+          message: `you blocked for ${this.BLOCK_MINUTES} minutes`,
+        },
+        HttpStatus.TOO_MANY_REQUESTS,
+      )
+    }
   }
 }

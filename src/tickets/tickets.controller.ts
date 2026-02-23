@@ -1,7 +1,9 @@
 import { Body, Controller, Get, HttpStatus, Param, Post, Query, Res } from '@nestjs/common'
+import { ApiBearerAuth } from '@nestjs/swagger'
 import type * as express from 'express'
 import type { CreateTicketDto } from './dto/create-ticket.dto'
 import { TicketsService } from './tickets.service'
+@ApiBearerAuth()
 @Controller('tickets')
 export class TicketsController {
   constructor(private readonly ticketsService: TicketsService) {}

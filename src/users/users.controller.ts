@@ -1,16 +1,19 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Query, Res } from '@nestjs/common'
+import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Query, Res, UseGuards } from '@nestjs/common'
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger'
 import { plainToInstance } from 'class-transformer'
 import type * as express from 'express'
 import type { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import type UserRoleEnum from './enums/userRoleEnum'
 import { UsersService } from './users.service'
-
+@ApiBearerAuth()
+@ApiTags('Users - user managment')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
+  @ApiOperation({ summary: 'create new user' })
   async create(@Res() res: express.Response, @Body() createUserDto: CreateUserDto) {
     const createdUSer = await this.usersService.create(createUserDto)
 
@@ -60,7 +63,6 @@ export class UsersController {
       data: null,
       message: 'user updated',
     })
-    return
   }
 
   @Delete(':id')
