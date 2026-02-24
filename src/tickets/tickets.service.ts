@@ -13,8 +13,8 @@ export class TicketsService {
     @Inject(forwardRef(() => UsersService))
     private readonly userService: UsersService,
   ) {}
-  async create(CreateTicketDto: CreateTicketDto): Promise<Ticket> {
-    const { userId, replyTo, ...formData } = CreateTicketDto
+  async create(CreateTicketDto: CreateTicketDto, userId: number): Promise<Ticket> {
+    const { replyTo, ...formData } = CreateTicketDto
     const user = await this.userService.findOne(+userId)
     const replyTicket = replyTo ? await this.ticketRepository.findOne({ where: { id: replyTo }, relations: ['replyTo'] }) : null
     if (replyTicket?.replyTo) throw new BadRequestException('شما نمیتوانید این تیکت ریپلای کنید')

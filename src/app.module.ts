@@ -1,21 +1,20 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
+import { APP_GUARD, Reflector } from '@nestjs/core'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { AddressModule } from './address/address.module'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { AuthModule } from './auth/auth.module'
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard'
+import { RolesGuard } from './auth/guards/roles.guard'
 import { CategoriesModule } from './categories/categories.module'
 import { IpTrackerMiddleware } from './ipTracker/ip-tracker.middleware'
 import { IpTrackerModule } from './ipTracker/ipTracker.module'
-import { BodyLoggerMiddleware } from './middlewares/body-logger/body-logger.middleware'
 import { OrdersModule } from './orders/orders.module'
 import { ProductsModule } from './products/products.module'
 import { TicketsModule } from './tickets/tickets.module'
 import { UsersModule } from './users/users.module'
-import { Reflector } from '@nestjs/core'
-import { JwtAuthGuard } from './auth/guards/jwt-auth.guard'
-import { APP_GUARD } from '@nestjs/core'
 
 @Module({
   imports: [
@@ -42,10 +41,17 @@ import { APP_GUARD } from '@nestjs/core'
     IpTrackerModule,
   ],
   controllers: [AppController],
-  providers: [AppService, {
-    provide:APP_GUARD,
-    useClass: JwtAuthGuard,
-  }],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {

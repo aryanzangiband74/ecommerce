@@ -1,13 +1,14 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Query, Res, UseGuards } from '@nestjs/common'
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { plainToInstance } from 'class-transformer'
 import type * as express from 'express'
+import { Roles } from 'src/auth/decorators/roles.decorator'
 import type { CreateUserDto } from './dto/create-user.dto'
 import { CreateUserResponseDto } from './dto/create-user-response.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
-import type UserRoleEnum from './enums/userRoleEnum'
-import { UsersService } from './users.service'
 import { UserResponseDto } from './dto/user-response.dto'
+import UserRoleEnum from './enums/userRoleEnum'
+import { UsersService } from './users.service'
 @ApiBearerAuth()
 @ApiTags('Users - user managment')
 @Controller('users')
@@ -29,6 +30,11 @@ export class UsersController {
 
   @Get()
   @ApiOperation({ summary: 'get all users' })
+  @ApiQuery({
+    name: 'role',
+    required: false,
+  })
+  @Roles(UserRoleEnum.ADMIN)
   @ApiResponse({ status: 200, description: 'کاربران با موفقیت دریافت شدند', type: [UserResponseDto] })
   async findAll(
     @Res() res: express.Response,

@@ -1,17 +1,16 @@
 import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common'
+import { ApiOperation, ApiResponse } from '@nestjs/swagger'
 import type * as express from 'express'
 import { AuthService } from './auth.service'
-import { LoginResponseDto, type LoginDto } from './dto/login.dto'
-import type { RegisterDto } from './dto/register.dto'
 import { Public } from './decorators/public.decorator'
-import { ApiOperation, ApiResponse } from '@nestjs/swagger'
-import { CreateUserResponseDto } from 'src/users/dto/create-user-response.dto'
+import { type LoginDto, LoginResponseDto } from './dto/login.dto'
+import type { RegisterDto } from './dto/register.dto'
 
+@Public()
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Public()
   @ApiOperation({ summary: 'register a new user' })
   @ApiResponse({ status: 200, description: 'user registered successfully' })
   @Post('register')
@@ -24,7 +23,6 @@ export class AuthController {
     })
   }
 
-  @Public()
   @ApiOperation({ summary: 'login a user' })
   @ApiResponse({ status: 200, description: 'user logged in successfully', type: LoginResponseDto })
   @Post('login')

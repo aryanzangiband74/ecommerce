@@ -28,7 +28,7 @@ export class AuthService {
     if (!user) throw new UnauthorizedException('کاربری با این شماره موبایل یافت نشد')
     if (!(await bcrypt.compare(password, user.password))) throw new UnauthorizedException('رمز عبور اشتباه است')
 
-    const payload = { mobile: user.mobile, sub: user.id, display_name: user.display_name }
+    const payload = { mobile: user.mobile, sub: user.id, display_name: user.display_name, role: user.role }
 
     const token = this.jwtService.sign(payload)
 

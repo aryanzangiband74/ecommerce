@@ -1,8 +1,8 @@
 import { IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator'
 
 export class CreateTicketDto {
-  @IsNotEmpty({ message: 'کاربر نمی تواند خالی باشد' })
-  userId: string
+  // @IsNotEmpty({ message: 'کاربر نمی تواند خالی باشد' })
+  // userId: string
 
   @IsNotEmpty({ message: 'عنوان تیکت نمی تواند خالی باشد' })
   @IsString({ message: 'عنوان تیکت باید یک رشته باشد' })
