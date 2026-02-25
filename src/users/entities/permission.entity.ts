@@ -1,10 +1,10 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
-@Entity('roles')
-export class Role {
+@Entity('permissions')
+export class Permission {
   @PrimaryGeneratedColumn()
   id: number
 
   @Column({ unique: true })
-  name: string
+  name: string // warehouse.create,warehouse.update
 }

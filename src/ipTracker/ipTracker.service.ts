@@ -5,7 +5,7 @@ import { IpRecord } from './entities/ip-record.entity'
 
 @Injectable()
 export class IpTrackerService {
-  private readonly MAX_REQUESTS = 5
+  private readonly MAX_REQUESTS = 20
   private readonly WINDOW_MINUTES = 1
   private readonly BLOCK_MINUTES = 2
   private readonly TEHRAN_TIMEZONE = 0

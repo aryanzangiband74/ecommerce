@@ -44,6 +44,12 @@ export class UsersService {
     return instanceToPlain(user) as User
   }
 
+  async findUserByPermission(id: number) {
+    const user = await this.userRepository.findOne({ where: { id }, relations: ['roles', 'roles.permissions', 'permissions'] })
+    if (!user) throw new BadRequestException('user not found')
+    return instanceToPlain(user) as User
+  }
+
   async findOneByMobile(mobile: string, checkExistence = false) {
     const user = await this.userRepository.findOne({ where: { mobile } })
     if (!checkExistence && !user) throw new BadRequestException('user not found')

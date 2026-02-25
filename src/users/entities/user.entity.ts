@@ -6,6 +6,8 @@ import { BookmarkProduct } from 'src/products/entities/product-bookmark.entity'
 import { Ticket } from 'src/tickets/entities/ticket.entity'
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import UserRoleEnum from '../enums/userRoleEnum'
+import { Permission } from './permission.entity'
+import { Role } from './role.entity'
 
 @Entity({ name: 'users' })
 export class User {
@@ -66,6 +68,18 @@ export class User {
     inverseJoinColumn: { name: 'product_id', referencedColumnName: 'id' },
   })
   basketItems: Product[]
+
+  @ManyToMany(() => Role)
+  @JoinTable({
+    name: 'user_roles',
+  })
+  roles: Role[]
+
+  @ManyToMany(() => Permission)
+  @JoinTable({
+    name: 'user_permissions',
+  })
+  permissions: Permission[]
 
   @Exclude()
   @CreateDateColumn()

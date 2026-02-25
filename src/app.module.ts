@@ -14,6 +14,7 @@ import { IpTrackerModule } from './ipTracker/ipTracker.module'
 import { OrdersModule } from './orders/orders.module'
 import { ProductsModule } from './products/products.module'
 import { TicketsModule } from './tickets/tickets.module'
+import { PermmisionsGuard } from './users/guards/permissions.guard'
 import { UsersModule } from './users/users.module'
 
 @Module({
@@ -49,8 +50,12 @@ import { UsersModule } from './users/users.module'
     },
     {
       provide: APP_GUARD,
-      useClass: RolesGuard,
+      useClass: PermmisionsGuard,
     },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: RolesGuard,
+    // },
   ],
 })
 export class AppModule {

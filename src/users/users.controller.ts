@@ -3,17 +3,23 @@ import { ApiBearerAuth, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@ne
 import { plainToInstance } from 'class-transformer'
 import type * as express from 'express'
 import { Roles } from 'src/auth/decorators/roles.decorator'
+import { Permissions } from './decorators/permissions.decorator'
+import { CreateRoleDto } from './dto/create-role.dto'
 import type { CreateUserDto } from './dto/create-user.dto'
 import { CreateUserResponseDto } from './dto/create-user-response.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { UserResponseDto } from './dto/user-response.dto'
 import UserRoleEnum from './enums/userRoleEnum'
+import { RolePermissionsService } from './role-permissions.service'
 import { UsersService } from './users.service'
 @ApiBearerAuth()
 @ApiTags('Users - user managment')
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly rolePermissionsService: RolePermissionsService,
+  ) {}
 
   @Post()
   @ApiOperation({ summary: 'create new user' })
@@ -52,6 +58,7 @@ export class UsersController {
   }
 
   @Get(':id')
+  @Permissions('read.user')
   @ApiOperation({ summary: 'get user by id' })
   @ApiResponse({ status: 200, description: 'کاربر با موفقیت دریافت شد', type: UserResponseDto })
   async findOne(@Res() res: express.Response, @Param('id') id: string) {
@@ -90,6 +97,31 @@ export class UsersController {
       statusCode: HttpStatus.OK,
       data: null,
       message: 'user updated',
+    })
+  }
+
+  @Get('getUserPermissions/:id')
+  @ApiOperation({ summary: 'get permissions by user_id' })
+  @ApiResponse({ status: 200, description: 'دسترسی ها با موفقیت دریافت شد' })
+  async getUserPermissions(@Res() res: express.Response, @Param('id') id: string) {
+    const user = await this.rolePermissionsService.getUserPermission(+id)
+    return res.status(HttpStatus.OK).json({
+      statusCode: HttpStatus.OK,
+      data: user,
+      message: 'permissions found',
+    })
+  }
+
+  @Post('create-role')
+  @ApiOperation({ summary: 'create new Role' })
+  @ApiResponse({ status: 201, description: 'create new role' })
+  async createRoles(@Res() res: express.Response, @Body() createRole: CreateRoleDto) {
+    const role = await this.rolePermissionsService.createRole(createRole.name)
+
+    return res.status(HttpStatus.CREATED).json({
+      statusCode: HttpStatus.CREATED,
+      data: role,
+      message: 'role created',
     })
   }
 }
