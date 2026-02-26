@@ -1,9 +1,13 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Query, Res, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Query, Res } from '@nestjs/common'
 import { ApiBearerAuth, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { plainToInstance } from 'class-transformer'
 import type * as express from 'express'
 import { Roles } from 'src/auth/decorators/roles.decorator'
 import { Permissions } from './decorators/permissions.decorator'
+import { AppendPermissionToRoleDto } from './dto/append-permission-to-role.dto'
+import { AssignPermissionToUserDto } from './dto/assign-permission-to-user.dto'
+import { AssignRoleToUser } from './dto/assignRoleToUser.dto'
+import { CreatePermissionDto } from './dto/create-permission.dto'
 import { CreateRoleDto } from './dto/create-role.dto'
 import type { CreateUserDto } from './dto/create-user.dto'
 import { CreateUserResponseDto } from './dto/create-user-response.dto'
@@ -122,6 +126,89 @@ export class UsersController {
       statusCode: HttpStatus.CREATED,
       data: role,
       message: 'role created',
+    })
+  }
+
+  @Post('assign-role-to-user')
+  @ApiOperation({ summary: 'assign Role to user' })
+  @ApiResponse({ status: 201, description: 'create new role' })
+  async assignRoleToUser(@Res() res: express.Response, @Body() assignRoleToUser: AssignRoleToUser) {
+    const role = await this.rolePermissionsService.addRoleToUser(assignRoleToUser.userId, assignRoleToUser.roleId)
+
+    return res.status(HttpStatus.CREATED).json({
+      statusCode: HttpStatus.CREATED,
+      data: role,
+      message: 'role assigend',
+    })
+  }
+  @Post('retake-role-from-user')
+  @ApiOperation({ summary: 'retake Role from user' })
+  @ApiResponse({ status: 201, description: 'create new role' })
+  async retakeRoleFromUser(@Res() res: express.Response, @Body() assignRoleToUser: AssignRoleToUser) {
+    const role = await this.rolePermissionsService.retakeRoleFromUser(assignRoleToUser.userId, assignRoleToUser.roleId)
+
+    return res.status(HttpStatus.CREATED).json({
+      statusCode: HttpStatus.CREATED,
+      data: role,
+      message: 'role retaked',
+    })
+  }
+
+  @Get('get-user-roles/:userId')
+  @ApiOperation({ summary: 'get user roles' })
+  @ApiResponse({ status: 201, description: 'get user roles' })
+  async getUserRoles(@Res() res: express.Response, @Param('userId') userId: number) {
+    const role = await this.rolePermissionsService.getUserRoles(userId)
+
+    return res.status(HttpStatus.CREATED).json({
+      statusCode: HttpStatus.CREATED,
+      data: role,
+      message: 'user roles',
+    })
+  }
+
+  @Post('create-permision')
+  @ApiOperation({ summary: 'create new permision' })
+  @ApiResponse({ status: 201, description: 'create new permision' })
+  async createPermission(@Res() res: express.Response, @Body() createPermission: CreatePermissionDto) {
+    const permission = await this.rolePermissionsService.createPermissions(createPermission.name)
+
+    return res.status(HttpStatus.CREATED).json({
+      statusCode: HttpStatus.CREATED,
+      data: permission,
+      message: 'permission created',
+    })
+  }
+
+  @Post('append-permission-to-role')
+  @ApiOperation({ summary: 'append-permission-to-role' })
+  @ApiResponse({ status: 201, description: 'create new role' })
+  async appendPermissionToRole(@Res() res: express.Response, @Body() appendPermissionToRoleDto: AppendPermissionToRoleDto) {
+    const role = await this.rolePermissionsService.addPermissionToRole(
+      appendPermissionToRoleDto.permissionId,
+      appendPermissionToRoleDto.roleId,
+    )
+
+    return res.status(HttpStatus.CREATED).json({
+      statusCode: HttpStatus.CREATED,
+      data: role,
+      message: 'role assigend',
+    })
+  }
+
+  @Post('assign-permission-to-user')
+  @ApiOperation({ summary: 'assign-permission-to-user' })
+  @ApiResponse({ status: 201, description: 'assign new permission to user' })
+  async assignPermissionToUser(@Res() res: express.Response, @Body() assignPermissionToUserDto: AssignPermissionToUserDto) {
+    const role = await this.rolePermissionsService.assignPermissionToUser(
+      assignPermissionToUserDto.userId,
+      assignPermissionToUserDto.permissionId,
+    )
+
+    return res.status(HttpStatus.CREATED).json({
+      statusCode: HttpStatus.CREATED,
+      data: role,
+      message: 'permission assigend',
     })
   }
 }

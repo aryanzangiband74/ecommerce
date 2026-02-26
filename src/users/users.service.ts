@@ -1,10 +1,12 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { instanceToPlain } from 'class-transformer'
 import type { Product } from 'src/products/entities/product.entity'
 import type { Repository } from 'typeorm'
 import type { CreateUserDto } from './dto/create-user.dto'
 import type { UpdateUserDto } from './dto/update-user.dto'
+import { Permission } from './entities/permission.entity'
+import { Role } from './entities/role.entity'
 import { User } from './entities/user.entity'
 import type UserRoleEnum from './enums/userRoleEnum'
 
@@ -93,5 +95,35 @@ export class UsersService {
     }
     user.basketItems = user.basketItems.filter((item) => item.id !== productId)
     await this.userRepository.save(user)
+  }
+
+  async addRole(userId: number, role: Role) {
+    const user = await this.userRepository.findOne({ where: { id: userId }, relations: ['roles'] })
+
+    if (!user) throw new NotFoundException('user not found')
+
+    user.roles.push(role)
+
+    return this.userRepository.save(user)
+  }
+
+  async removeRole(userId: number, roleId: number) {
+    const user = await this.userRepository.findOne({ where: { id: userId }, relations: ['roles'] })
+
+    if (!user) throw new NotFoundException('user not found')
+
+    user.roles = user.roles.filter((r) => r.id !== roleId)
+
+    return this.userRepository.save(user)
+  }
+
+  async addPermission(userId: number, permission: Permission) {
+    const user = await this.userRepository.findOne({ where: { id: userId }, relations: ['permissions'] })
+
+    if (!user) throw new NotFoundException('user not found')
+
+    user.permissions.push(permission)
+
+    return this.userRepository.save(user)
   }
 }
