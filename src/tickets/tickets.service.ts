@@ -1,5 +1,7 @@
 import { BadRequestException, forwardRef, Inject, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { createPaginatedResult, getPaginationParams } from 'src/common'
+import type { PaginationOptions } from 'src/common'
 import { UsersService } from 'src/users/users.service'
 import type { Repository } from 'typeorm'
 import type { CreateTicketDto } from './dto/create-ticket.dto'
@@ -26,12 +28,18 @@ export class TicketsService {
     return this.ticketRepository.save(ticket)
   }
 
-  async findAll(limit: number = 10, page: number = 1) {
-    const query = this.ticketRepository.createQueryBuilder('tickets')
-    query.where('tickets.replyToId IS NULL')
+  private readonly ticketSortFields = ['created_at', 'updated_at', 'title', 'id'] as const
 
-    query.skip((page - 1) * limit).take(limit)
-    return await query.getMany()
+  async findAll(options: PaginationOptions = {}) {
+    const params = getPaginationParams(options, [...this.ticketSortFields])
+    const [data, total] = await this.ticketRepository
+      .createQueryBuilder('tickets')
+      .where('tickets.replyToId IS NULL')
+      .orderBy(`tickets.${params.sortBy}`, params.sortOrder)
+      .skip(params.skip)
+      .take(params.take)
+      .getManyAndCount()
+    return createPaginatedResult(data, total, params)
   }
 
   async findOne(id: number) {

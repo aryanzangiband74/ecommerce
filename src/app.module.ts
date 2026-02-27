@@ -1,6 +1,7 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
-import { APP_GUARD, Reflector } from '@nestjs/core'
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core'
+import { ResponseInterceptor } from './common/interceptors/response.interceptor'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { AddressModule } from './address/address.module'
 import { AppController } from './app.controller'
@@ -56,6 +57,10 @@ import { UsersModule } from './users/users.module'
     //   provide: APP_GUARD,
     //   useClass: RolesGuard,
     // },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ResponseInterceptor,
+    },
   ],
 })
 export class AppModule {
