@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Query, Res } from '@nestjs/common'
 import { ApiBearerAuth } from '@nestjs/swagger'
 import type * as express from 'express'
+import { Permissions } from 'src/users/decorators/permissions.decorator'
 import { AddressService } from './address.service'
 import type { CreateAddressDto } from './dto/create-address.dto'
 import type { UpdateAddressDto } from './dto/update-address.dto'
@@ -52,6 +53,7 @@ export class AddressController {
     })
   }
 
+  @Permissions('address:delete:own')
   @Delete(':id')
   async remove(@Res() res: express.Response, @Param('id') id: string) {
     await this.addressService.remove(+id)

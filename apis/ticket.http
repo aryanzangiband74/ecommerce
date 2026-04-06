@@ -11,13 +11,14 @@ Content-Type: application/json
 ###
 POST http://localhost:3000/tickets
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIwOTE4Mzc0NDY1OCIsInN1YiI6MywiZGlzcGxheV9uYW1lIjoiYWhtYWRpIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NzI5ODM1NzAsImV4cCI6MTc3Mjk4NzE3MH0.HffFKwRnGbUmMjYC_8TCQUse7hE3ZeJnq_GOEaPIJew
 
 {
-  "title":"new ticket",
-  "subject":"ahmad abad",
+  "title":"new asdsadffasdf",
+  "subject":"ahmad asdfsdf",
   "description":"ticket description",
-  "userId":2,
-  "replyTo":2
+  "userId":3,
+  "replyTo":null
 }
 ###
 PATCH  http://localhost:3000/tickets/1

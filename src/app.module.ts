@@ -1,7 +1,6 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core'
-import { ResponseInterceptor } from './common/interceptors/response.interceptor'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { AddressModule } from './address/address.module'
 import { AppController } from './app.controller'
@@ -10,6 +9,7 @@ import { AuthModule } from './auth/auth.module'
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard'
 import { RolesGuard } from './auth/guards/roles.guard'
 import { CategoriesModule } from './categories/categories.module'
+import { ResponseInterceptor } from './common/interceptors/response.interceptor'
 import { IpTrackerMiddleware } from './ipTracker/ip-tracker.middleware'
 import { IpTrackerModule } from './ipTracker/ipTracker.module'
 import { OrdersModule } from './orders/orders.module'
@@ -17,6 +17,7 @@ import { ProductsModule } from './products/products.module'
 import { TicketsModule } from './tickets/tickets.module'
 import { PermmisionsGuard } from './users/guards/permissions.guard'
 import { UsersModule } from './users/users.module'
+import { SeederModule } from './seeder/seeder.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { UsersModule } from './users/users.module'
     CategoriesModule,
     OrdersModule,
     IpTrackerModule,
+    SeederModule,
   ],
   controllers: [AppController],
   providers: [
@@ -48,10 +50,6 @@ import { UsersModule } from './users/users.module'
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
-    },
-    {
-      provide: APP_GUARD,
-      useClass: PermmisionsGuard,
     },
     // {
     //   provide: APP_GUARD,

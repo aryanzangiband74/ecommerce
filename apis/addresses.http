@@ -11,14 +11,15 @@ Content-Type: application/json
 ###
 POST http://localhost:3000/addresses
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIwOTE4Mzc0NDY1OCIsInN1YiI6MywiZGlzcGxheV9uYW1lIjoiYWhtYWRpIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NzMwMDIyNDAsImV4cCI6MTc3MzA4ODY0MH0.jAADcGsjOzkVUnr98nvoBq0tV6nd6xlrQZPJHRBlwCw
 
 {
-  "privince":"aryan",
-  "city":"aryan",
-  "address":"aryan",
-  "postal_code":"1234567890",
-  "reciver_mobile":"09304263292",
-  "user_id":1
+  "privince":"aasdryan",
+  "city":"asdasdasd",
+  "address":"arasdasdyan",
+  "postal_code":"1224567890",
+  "reciver_mobile":"09183744658",
+  "user_id":3
 }
 ###
 PATCH  http://localhost:3000/addresses/1
@@ -33,5 +34,7 @@ Content-Type: application/json
 
 
 ###
-DELETE   http://localhost:3000/addresses/1
+DELETE   http://localhost:3000/addresses/6
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIwOTE4Mzc0NDY1OCIsInN1YiI6MywiZGlzcGxheV9uYW1lIjoiYWhtYWRpIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NzMwMDIyNDAsImV4cCI6MTc3MzA4ODY0MH0.jAADcGsjOzkVUnr98nvoBq0tV6nd6xlrQZPJHRBlwCw
+

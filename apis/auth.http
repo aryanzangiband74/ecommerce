@@ -3,9 +3,9 @@ POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-  "mobile":"09181742580",
-  "name":"hadi",
-  "display_name":"hadi",
+  "mobile":"09304263292",
+  "name":"ali",
+  "display_name":"rajabi",
   "password":"12345678"
 }
 
@@ -16,6 +16,6 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-    "mobile":"09181742580",
+    "mobile":"09183744658",
     "password":"12345678"
 }
