@@ -1,12 +1,14 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Query, Res } from '@nestjs/common'
+import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Post, Query, Res, UseInterceptors } from '@nestjs/common'
 import { ApiBearerAuth } from '@nestjs/swagger'
 import type * as express from 'express'
+import { LoggingInterceptor } from 'src/common/interceptors/logging.interceptor'
 import { Permissions } from 'src/users/decorators/permissions.decorator'
 import { AddressService } from './address.service'
 import type { CreateAddressDto } from './dto/create-address.dto'
 import type { UpdateAddressDto } from './dto/update-address.dto'
 
 @ApiBearerAuth()
+@UseInterceptors(LoggingInterceptor)
 @Controller('addresses')
 export class AddressController {
   constructor(private readonly addressService: AddressService) {}
