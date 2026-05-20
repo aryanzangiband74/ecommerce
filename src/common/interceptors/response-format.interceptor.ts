@@ -9,8 +9,8 @@ export class ResponseFormatInterceptor implements NestInterceptor {
         const response = context.switchToHttp().getResponse()
         return {
           success: true,
-          data,
           message: 'operstion successful',
+          data,
           statusCode: response.statusCode,
           timestamp: new Date(),
         }
