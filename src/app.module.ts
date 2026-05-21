@@ -1,3 +1,4 @@
+import { BullModule } from '@nestjs/bull'
 import { MiddlewareConsumer, Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core'
@@ -16,10 +17,11 @@ import { IpTrackerModule } from './ipTracker/ipTracker.module'
 import { OrdersModule } from './orders/orders.module'
 import { ProductsModule } from './products/products.module'
 import { SeederModule } from './seeder/seeder.module'
+import { TasksModule } from './tasks/tasks.module'
 import { TicketsModule } from './tickets/tickets.module'
 import { PermmisionsGuard } from './users/guards/permissions.guard'
 import { UsersModule } from './users/users.module'
-import { TasksModule } from './tasks/tasks.module';
+import { SmsModule } from './sms/sms.module';
 
 @Module({
   imports: [
@@ -39,6 +41,15 @@ import { TasksModule } from './tasks/tasks.module';
       entities: [`${__dirname}/**/entities/*.entity{.ts,.js}`],
       synchronize: true,
     }),
+
+    //Bull
+    BullModule.forRoot({
+      redis: {
+        host: process.env.REDIS_HOST,
+        port: +process.env.REDIS_PORT! || 6379,
+        password: process.env.REDIS_PASSWORD,
+      },
+    }),
     UsersModule,
     AuthModule,
     AddressModule,
@@ -49,6 +60,7 @@ import { TasksModule } from './tasks/tasks.module';
     IpTrackerModule,
     SeederModule,
     TasksModule,
+    SmsModule,
   ],
   controllers: [AppController],
   providers: [
