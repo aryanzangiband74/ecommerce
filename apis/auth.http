@@ -16,6 +16,6 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-    "mobile":"09304263292",
+    "mobile":"09304263292dd",
     "password":"12345678"
 }

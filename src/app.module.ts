@@ -1,6 +1,7 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core'
+import { ScheduleModule } from '@nestjs/schedule'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { AddressModule } from './address/address.module'
 import { AppController } from './app.controller'
@@ -18,12 +19,16 @@ import { SeederModule } from './seeder/seeder.module'
 import { TicketsModule } from './tickets/tickets.module'
 import { PermmisionsGuard } from './users/guards/permissions.guard'
 import { UsersModule } from './users/users.module'
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+
+    //task scheduler
+    ScheduleModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
@@ -43,6 +48,7 @@ import { UsersModule } from './users/users.module'
     OrdersModule,
     IpTrackerModule,
     SeederModule,
+    TasksModule,
   ],
   controllers: [AppController],
   providers: [
